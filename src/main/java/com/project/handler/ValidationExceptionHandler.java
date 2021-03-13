@@ -1,7 +1,7 @@
-package com.wangjy.handler;
+package com.project.handler;
 
-import com.wangjy.result.Result;
-import com.wangjy.result.ResultCode;
+import com.project.result.Result;
+import com.project.result.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.wangjy.po;
+package com.project.po;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

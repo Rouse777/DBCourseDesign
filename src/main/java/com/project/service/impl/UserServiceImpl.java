@@ -1,16 +1,14 @@
-package com.wangjy.service.impl;
+package com.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.wangjy.mapper.UserMapper;
-import com.wangjy.po.UserPO;
-import com.wangjy.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.project.mapper.UserMapper;
+import com.project.po.UserPO;
+import com.project.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Set;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserPO> implements UserService {

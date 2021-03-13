@@ -1,7 +1,7 @@
-package com.wangjy.mapper;
+package com.project.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wangjy.po.UserPO;
+import com.project.po.UserPO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 

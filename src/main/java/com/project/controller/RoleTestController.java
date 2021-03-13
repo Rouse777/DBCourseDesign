@@ -1,7 +1,7 @@
-package com.wangjy.controller;
+package com.project.controller;
 
-import com.wangjy.po.UserPO;
-import com.wangjy.result.Result;
+import com.project.po.UserPO;
+import com.project.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresRoles;

@@ -1,10 +1,10 @@
-package com.wangjy.controller;
+package com.project.controller;
 
-import com.wangjy.dto.UserDTO;
-import com.wangjy.po.UserPO;
-import com.wangjy.result.Result;
-import com.wangjy.result.ResultCode;
-import com.wangjy.service.UserService;
+import com.project.dto.UserDTO;
+import com.project.po.UserPO;
+import com.project.result.Result;
+import com.project.result.ResultCode;
+import com.project.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -30,8 +30,12 @@ import javax.validation.Valid;
 @Slf4j
 @Api(tags = "普通用户注册登录")
 public class UserController {
-    @Autowired
     private UserService userService;
+
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     //shiro加持的注册方法
     @PostMapping("/register")

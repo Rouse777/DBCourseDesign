@@ -1,4 +1,4 @@
-package com.wangjy.result;
+package com.project.result;
 
 
 import io.swagger.annotations.ApiModel;

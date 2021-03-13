@@ -1,7 +1,4 @@
-package com.wangjy.result;
-
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+package com.project.result;
 
 public enum ResultCode {
     SUCCESS(2000,"成功"),

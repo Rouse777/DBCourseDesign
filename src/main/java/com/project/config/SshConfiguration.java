@@ -1,4 +1,4 @@
-package com.wangjy.config;
+package com.project.config;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
@@ -15,7 +15,7 @@ import java.util.Properties;
 @Slf4j
 public class SshConfiguration implements ServletContextInitializer {
 
-    public SshConfiguration() throws Exception{
+    public SshConfiguration() throws Exception {
         Properties p = new Properties();
         p.load(getClass().getResourceAsStream("/application.properties"));
         //如果配置文件中ssh.forward.enabled属性值为true，则使用ssh转发
@@ -41,7 +41,7 @@ public class SshConfiguration implements ServletContextInitializer {
     }
 
     @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
+    public void onStartup(ServletContext servletContext) {
 
     }
 }

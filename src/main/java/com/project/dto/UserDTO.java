@@ -1,4 +1,4 @@
-package com.wangjy.dto;
+package com.project.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
