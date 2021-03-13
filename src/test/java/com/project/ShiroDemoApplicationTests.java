@@ -9,9 +9,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 class ShiroDemoApplicationTests {
     @Autowired
     private UserService userService;
+
     @Test
-    void DBTest(){
+    void DBTest() {
         System.out.println(userService.list());
+    }
+    @Test
+    void DBSettings(){
+
     }
     @Test
     void contextLoads() {
