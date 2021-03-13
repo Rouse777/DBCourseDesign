@@ -9,5 +9,5 @@ public interface UserService extends IService<UserPO> {
 
     boolean isNameExist(String username);
 
-    String getRoleByName(@Param("username") String username);
+    String getRoleByName(String username);
 }

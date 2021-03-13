@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+/**
+ * user的PO类，用于与数据库交互
+ */
 @Data
 @TableName("user")
 public class UserPO {

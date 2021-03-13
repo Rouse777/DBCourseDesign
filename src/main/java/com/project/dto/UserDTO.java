@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 /**
- * user的DTO类，用于登陆注册时接收前端传来的用户名和密码，并用Validation对数据作验证
+ * user的DTO类，与前端交互，用于登陆注册时接收前端传来的用户名和密码，并用Validation对数据作验证
  */
 @Data
 @ApiModel

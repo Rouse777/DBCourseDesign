@@ -32,17 +32,12 @@ public class Swagger2Config extends WebMvcConfigurationSupport {
                 //.apis(RequestHandlerSelectors.any())
                 //.paths(PathSelectors.any())
                 .build();
-        //添加登录认证
-                /*.securitySchemes(securitySchemes())
-                .securityContexts(securityContexts());*/
     }
 
     private ApiInfo apiInfo() {
-        Contact contact = new Contact("王景扬", "", "490451981@qq.com");
         return new ApiInfoBuilder()
                 .title("接口文档")
                 .description("接口文档测试")
-                .contact(contact)
                 .version("1.0")
                 .build();
     }

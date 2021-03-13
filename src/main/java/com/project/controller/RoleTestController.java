@@ -13,21 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RoleTestController {
     @GetMapping("/test/user")
-    @RequiresUser()
     @ApiOperation("登录或记住的用户可以访问")
     public Result userTest() {
         return Result.success("您已登录，可以访问");
     }
 
     @GetMapping("/test/role-admin")
-    @RequiresRoles(UserPO.ROLE_ADMIN)
     @ApiOperation("管理员可以访问")
     public Result roleAdminTest() {
         return Result.success("您是管理员，可以访问");
     }
 
     @GetMapping("/test/role-user")
-    @RequiresRoles(UserPO.ROLE_USER)
     @ApiOperation("普通用户可以访问")
     public Result roleUserTest() {
         return Result.success("您是普通用户，可以访问");

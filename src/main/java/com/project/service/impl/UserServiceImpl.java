@@ -26,7 +26,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserPO> implements 
 
     @Override
     public boolean isNameExist(String username) {
-
         return super.count(nameWrapper(username)) != 0;
     }
 
@@ -34,6 +33,4 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserPO> implements 
     public String getRoleByName(String username) {
         return userMapper.selectRoleByName(username);
     }
-
-
 }
