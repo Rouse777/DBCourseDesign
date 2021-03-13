@@ -42,7 +42,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/configuration/**", "anon");
 
         //权限测试设置
-        filterChainDefinitionMap.put("/check-login", "authc");
+        filterChainDefinitionMap.put("/check-login", "anon");
         filterChainDefinitionMap.put("/test/user", "authc");
         filterChainDefinitionMap.put("/test/role-user", "roles[ROLE_USER]");
         filterChainDefinitionMap.put("/test/role-admin", "roles[ROLE_ADMIN]");
