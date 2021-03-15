@@ -21,9 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.annotations.ApiIgnore;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @RestController
@@ -76,7 +74,7 @@ public class UserController {
     //shiro加持的登录方法，参数传进来一个UserDTO用户对象
     @PostMapping("/login")
     @ApiOperation(value = "用户登录")
-    public Result login(@RequestBody @Valid UserDTO userDTO, @ApiIgnore HttpSession session) {
+    public Result login(@RequestBody @Valid UserDTO userDTO) {
         //获取登录时输入的用户名
         String username = userDTO.getUsername();
         String password = userDTO.getPassword();
@@ -86,8 +84,6 @@ public class UserController {
                 new UsernamePasswordToken(username, password);
         try {
             subject.login(token);
-            UserPO userInDB = userService.getByName(username);
-            session.setAttribute("user", userInDB);
             log.info("用户{}登录成功", userDTO);
             return Result.success("登录成功");
         } catch (UnknownAccountException e) {

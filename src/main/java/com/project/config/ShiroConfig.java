@@ -25,9 +25,10 @@ public class ShiroConfig {
         //授权失败时跳转，即权限不足
         shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized");
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-        // <!-- authc:所有url都必须认证通过才可以访问;
-        // anon:所有url都都可以匿名访问;
-        // roles[admin]:只有admin才能访问-->
+        // authc:必须登录才可以访问;
+        // anon:任何人都可以访问;
+        // roles[ROLE_ADMIN]:只有admin才能访问
+        // roles[ROLE_USER]:只有user才能访问
 
         //注册登录放行
         filterChainDefinitionMap.put("/login", "anon");
