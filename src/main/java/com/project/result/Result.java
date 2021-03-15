@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Data
-@ApiModel("响应json数据模型")
+@ApiModel(value = "响应json数据模型",description = "后端响应数据的统一封装格式")
 public class Result {
     @ApiModelProperty("业务状态码：\n" +
             "    SUCCESS(2000,\"操作成功\"),\n" +
