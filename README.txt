@@ -4,7 +4,7 @@
 
 技术栈：
 语言：Java8
-web框架：SpringBoot
+web框架：SpringBoot 2.1.0
 持久层框架：MyBatis-Plus
 安全框架：Shiro
 简化开发：Lombok

@@ -10,4 +10,6 @@ public interface UserService extends IService<UserPO> {
     boolean isNameExist(String username);
 
     String getRoleByName(String username);
+
+    boolean removeByName(String name);
 }
