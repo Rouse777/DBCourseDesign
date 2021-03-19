@@ -2,6 +2,8 @@
 本项目为数据库课设
 目前仅实现了用户登录注册和鉴权功能
 
+swagger2接口文档: localhost:8888/swagger-ui.html
+
 技术栈：
 语言：Java8
 web框架：SpringBoot 2.1.0
