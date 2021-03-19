@@ -5,6 +5,7 @@ spring:
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver #com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
+    removeAbandoned: false
 
 server:
   port: 8888
@@ -12,3 +13,4 @@ server:
 mybatis-plus:
   configuration:
     use-generated-keys: true #更新或插入数据返回时，主键一起返回
+    removeAbandoned: false
