@@ -3,6 +3,7 @@ package com.project.po;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.project.dto.UserInfo;
 import lombok.Data;
 
 /**
@@ -11,8 +12,6 @@ import lombok.Data;
 @Data
 @TableName("user")
 public class UserPO {
-    public static final String ROLE_USER = "ROLE_USER";
-    public static final String ROLE_ADMIN = "ROLE_ADMIN";
 
     @TableId(type = IdType.AUTO)
     private Integer id;
@@ -20,4 +19,8 @@ public class UserPO {
     private String password;
     private String role;
     private String salt;
+
+    public UserInfo getUserInfo(){
+        return new UserInfo(username,role);
+    }
 }

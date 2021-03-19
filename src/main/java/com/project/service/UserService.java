@@ -1,8 +1,11 @@
 package com.project.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.project.dto.AuthUser;
+import com.project.dto.UserInfo;
 import com.project.po.UserPO;
-import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UserService extends IService<UserPO> {
     UserPO getByName(String userName);
@@ -12,4 +15,8 @@ public interface UserService extends IService<UserPO> {
     String getRoleByName(String username);
 
     boolean removeByName(String name);
+
+    List<UserInfo> listUserInfo();
+
+    boolean saveAuthUser(AuthUser authUser);
 }

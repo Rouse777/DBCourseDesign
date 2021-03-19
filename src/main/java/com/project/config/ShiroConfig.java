@@ -16,6 +16,8 @@ import java.util.Map;
 
 @Configuration
 public class ShiroConfig {
+    public static final String HASH_ALGORITHM="md5";
+    public static final int HASH_ITERATIONS=2;
     @Bean(name = "shiroFilter")
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
@@ -29,9 +31,6 @@ public class ShiroConfig {
         // anon:任何人都可以访问;
         // roles[ROLE_ADMIN]:只有admin才能访问
         // roles[ROLE_USER]:只有user才能访问
-
-        //测试时放行资源，避免每次都需要登陆
-        //filterChainDefinitionMap.put("/admin/*", "anon");
 
         //注册登录放行
         filterChainDefinitionMap.put("/login", "anon");
@@ -49,10 +48,10 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/check-login", "anon");
         filterChainDefinitionMap.put("/test/user", "authc");
         filterChainDefinitionMap.put("/test/role-user", "roles[ROLE_USER]");
-        filterChainDefinitionMap.put("/admin/**", "roles[ROLE_ADMIN]");
 
         //剩余的都需要认证(这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截)
-        filterChainDefinitionMap.put("/**", "authc");
+        //测试时将权限改为"anon"避免每次需要登录，发布时改为"authc"
+        filterChainDefinitionMap.put("/**", "anon");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
@@ -77,8 +76,8 @@ public class ShiroConfig {
     @Bean
     public HashedCredentialsMatcher hashedCredentialsMatcher() {
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
-        hashedCredentialsMatcher.setHashAlgorithmName("md5");
-        hashedCredentialsMatcher.setHashIterations(2);
+        hashedCredentialsMatcher.setHashAlgorithmName(HASH_ALGORITHM);
+        hashedCredentialsMatcher.setHashIterations(HASH_ITERATIONS);
         return hashedCredentialsMatcher;
     }
 }
