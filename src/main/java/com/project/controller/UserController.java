@@ -24,7 +24,7 @@ import javax.validation.Valid;
 
 @RestController
 @Slf4j
-@Api(tags = "普通用户注册登录")
+@Api(tags = "用户权限")
 public class UserController {
     private UserService userService;
 

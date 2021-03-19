@@ -30,6 +30,9 @@ public class ShiroConfig {
         // roles[ROLE_ADMIN]:只有admin才能访问
         // roles[ROLE_USER]:只有user才能访问
 
+        //测试时放行资源，避免每次都需要登陆
+        //filterChainDefinitionMap.put("/admin/*", "anon");
+
         //注册登录放行
         filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/register", "anon");
