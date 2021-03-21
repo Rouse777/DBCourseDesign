@@ -7,6 +7,7 @@ import com.project.result.Result;
 import com.project.result.ResultCode;
 import com.project.service.UserService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
@@ -16,10 +17,12 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @Slf4j
@@ -32,16 +35,61 @@ public class UserController {
         this.userService = userService;
     }
 
+    @Autowired
+    StringRedisTemplate redisTemplate;
+
     @PostMapping("/register")
     @ApiOperation(value = "普通用户注册")
     public Result register(@RequestBody @Valid AuthUser authUser) {
-        if (userService.saveAuthUser(authUser)) {
-            log.info("用户{}注册成功", authUser);
-            return Result.success("注册成功");
-        }
-        log.info("用户{}注册失败，用户名已存在", authUser);
-        return Result.success("注册失败，用户名已存在");
+
+            if(userService.getByName(authUser.getUsername())!=null)
+                return Result.success("注册失败，该用户已存在");
+            if(redisTemplate.opsForValue().get(authUser.getUsername())!=null)
+                return Result.success("请勿重复申请注册");
+            redisTemplate.opsForValue().set(authUser.getUsername(),authUser.getPassword());
+            return Result.success("注册申请已提交给管理员");
+
     }
+
+
+
+    @RequestMapping("/admin/approval")
+    @ApiOperation(value="全部待审批的注册申请")
+    public Result approval(){
+        Set<String> a=redisTemplate.keys("*");
+        System.out.println(a);
+        List<AuthUser> ans=new ArrayList<AuthUser>();
+        for(String b:a){
+            ans.add(new AuthUser(b,redisTemplate.opsForValue().get(b).toString()));
+        }
+
+        Result result= Result.success();
+        HashMap<String,Object> ans1=new HashMap<>();
+        ans1.put("users",ans);
+        System.out.println(ans1);
+        result.setData(ans1);
+        return result;
+    }
+
+
+    @RequestMapping("/admin/registeruser")
+    @ApiOperation(value="前端返回某一用户的审批结果,pass为1表示通过审批为0反之(写在url上)")
+    public Result approval1(@RequestBody AuthUser authuser, @RequestParam String pass)throws Exception{
+
+        redisTemplate.delete(authuser.getUsername());
+        if(pass.equals("1")){
+             if(userService.saveAuthUser(authuser))
+             return Result.success(authuser.getUsername()+"注册成功");
+             else return Result.success("注册失败该用户名已存在");
+        }
+
+        else{
+
+            return Result.success(authuser.getUsername()+"注册失败");
+        }
+    }
+
+
 
     //shiro加持的登录方法，参数传进来一个UserDTO用户对象
     @PostMapping("/login")
@@ -62,6 +110,10 @@ public class UserController {
         log.info(msg);
         return Result.fail(msg);
     }
+
+
+    
+
 
     private void verifyUser(AuthUser authUser) {
         //获取登录时输入的用户名

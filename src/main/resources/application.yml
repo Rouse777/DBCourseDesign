@@ -14,3 +14,5 @@ mybatis-plus:
   configuration:
     use-generated-keys: true #更新或插入数据返回时，主键一起返回
     removeAbandoned: false
+
+

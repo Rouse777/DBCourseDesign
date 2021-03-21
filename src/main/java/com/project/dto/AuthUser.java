@@ -22,4 +22,9 @@ public class AuthUser {
     @NotNull
     @Length(min = 3, max = 16, message = "密码，长度3-16个字符")
     private String password;
+
+    public AuthUser(){}
+
+    public AuthUser(String a,String b){this.username=a;this.password=b;};
+
 }
