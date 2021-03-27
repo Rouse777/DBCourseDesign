@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -21,7 +22,14 @@ public class ShiroConfig {
     @Bean(name = "shiroFilter")
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+
         shiroFilterFactoryBean.setSecurityManager(securityManager);
+        Map<String, Filter> filters = new LinkedHashMap<>();
+        filters.put("user", new StatelessAuthcFilter());
+        shiroFilterFactoryBean.setFilters(filters);
+        System.out.println("cors fillter");
+
+
         //未登录时跳转
         shiroFilterFactoryBean.setLoginUrl("/unauthenticated");
         //授权失败时跳转，即权限不足
