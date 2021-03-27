@@ -55,7 +55,7 @@ public class ShiroConfig {
         //权限测试设置
         filterChainDefinitionMap.put("/check-login", "anon");
         filterChainDefinitionMap.put("/test/user", "authc");
-        filterChainDefinitionMap.put("/test/role-user", "roles[ROLE_USER]");
+        filterChainDefinitionMap.put("/admin/**", "roles[ROLE_ADMIN]");
 
         //剩余的都需要认证(这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截)
         //测试时将权限改为"anon"避免每次需要登录，发布时改为"authc"

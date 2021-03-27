@@ -178,14 +178,18 @@ public class UserController {
         return Result.success().put("users", userInfos);
     }
 
-    @DeleteMapping("/admin/user")
+    @PostMapping("/admin/user_delete")
     @ApiOperation(value = "删除用户", notes = "需要管理员权限，删除任意指定用户名的普通用户，不可删除管理员")
     public Result deleteUser(@RequestParam String username) {
+        System.out.println("delete"+username);
         if (!userService.isNameExist(username)) {
             log.info("用户{}不存在，删除失败", username);
             return Result.fail("该用户不存在或已被删除");
         }
+        System.out.println("delete"+username);
         String role = userService.getRoleByName(username);
+        System.out.println("delete:"+role);
+        System.out.println("delete"+username);
         if (UserRole.ROLE_ADMIN.equals(role)) {
             log.info("用户{}为管理员，无法删除", username);
             return Result.fail("该用户为管理员，无法删除");
