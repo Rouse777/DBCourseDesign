@@ -53,7 +53,7 @@ public class UserController {
 
 
 
-    @RequestMapping("/admin/approval")
+    @GetMapping("/admin/approval")
     @ApiOperation(value="全部待审批的注册申请")
     public Result approval(){
         Set<String> a=redisTemplate.keys("*");
@@ -72,7 +72,7 @@ public class UserController {
     }
 
 
-    @RequestMapping("/admin/registeruser")
+    @PostMapping("/admin/registeruser")
     @ApiOperation(value="前端返回某一用户的审批结果,pass为1表示通过审批为0反之(写在url上)")
     public Result approval1(@RequestBody AuthUser authuser, @RequestParam String pass)throws Exception{
 
