@@ -3,9 +3,11 @@ spring:
     url: jdbc:mysql://localhost:3307/wjytest?useUnicode=true&characterEncoding=UTF-8
     username: root
     password: root
-    driver-class-name: com.mysql.jdbc.Driver #com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     removeAbandoned: false
+    druid:
+      max-wait: 3600  #一小时重连一次数据库
 
 server:
   port: 8888

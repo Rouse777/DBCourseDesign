@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,8 +44,8 @@ public class DataSourceConfigController {
             stat.setString(1, variableName);
             ResultSet rs = stat.executeQuery();
             rs.next();
-            String res= rs.getObject(2).toString();
-            log.info("设置数据库变量:"+variableName+"="+res);
+            String res = rs.getObject(2).toString();
+            log.info("设置数据库变量:" + variableName + "=" + res);
             return res;
         }
     }
@@ -75,13 +74,17 @@ public class DataSourceConfigController {
     @PostMapping("/admin/max_connections")
     @ApiOperation(value = "设置最大连接数")
     public Result setMaxConnections(@RequestParam @ApiParam("最大连接数，最低10") String value) throws Exception {
+        //最低为10
+        if (Integer.parseInt(value) < 10) value = "10";
         ShellUtils.execCmd("mysql -h127.0.0.1 -P3306 -uroot -proot -e \"set global max_connections=" + value + "\";");
         return Result.success();
     }
 
     @PostMapping("/admin/wait_timeout")
     @ApiOperation(value = "设置最大空闲连接时长")
-    public Result setWaitTimeout(@RequestParam @ApiParam("最大连接时长，最低1000，单位毫秒") String value) throws Exception {
+    public Result setWaitTimeout(@RequestParam @ApiParam("最大连接时长，最低3600，单位秒") String value) throws Exception {
+        //最低为3600s
+        if (Integer.parseInt(value) < 3600) value = "3600";
         ShellUtils.execCmd("mysql -h127.0.0.1 -P3306 -uroot -proot -e \"set global wait_timeout=" + value + "\";");
         return Result.success();
     }
