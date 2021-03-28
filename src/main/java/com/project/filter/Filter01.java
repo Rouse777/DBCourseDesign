@@ -40,6 +40,7 @@ public class Filter01 implements Filter {
         System.out.println(orignalHeader);
 
         response.addHeader("Access-Control-Allow-Origin", orignalHeader);
+        System.out.println("orignalHeader:"+orignalHeader);
         response.addHeader("Access-Control-Allow-Credentials", "true");
         response.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
         response.addHeader("Access-Control-Allow-Headers", request.getHeader("Access-Control-Request-Headers"));

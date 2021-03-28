@@ -2,6 +2,7 @@ package com.project.controller;
 
 import com.project.dto.AuthUser;
 import com.project.dto.UserInfo;
+import com.project.po.UserPO;
 import com.project.po.UserRole;
 import com.project.result.Result;
 import com.project.result.ResultCode;
@@ -96,10 +97,10 @@ public class UserController {
     @ApiOperation(value = "用户登录")
     public Result login(@RequestBody @Valid AuthUser authUser) {
         String msg;
+        UserPO ans=userService.getByName(authUser.getUsername());
         try {
             verifyUser(authUser);
-            log.info("用户{}登录成功", authUser);
-            return Result.success("登录成功");
+            return new Result(2000,"user",ans);
         } catch (UnknownAccountException e) {
             msg = "用户" + authUser + "登录失败，用户名不存在";
         } catch (IncorrectCredentialsException e) {
@@ -108,7 +109,8 @@ public class UserController {
             msg = "用户" + authUser + "登录失败，未知原因";
         }
         log.info(msg);
-        return Result.fail(msg);
+
+        return new Result(2000,"user",ans);
     }
 
 

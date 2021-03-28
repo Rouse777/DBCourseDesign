@@ -26,13 +26,21 @@ public class Result {
     @ApiModelProperty("数据")
     private Map<String, Object> data;
 
-    private Result(int code, String msg) {
+    public Result(int code, String msg) {
         this.code = code;
         this.msg = msg;
         data = new HashMap<>();
     }
 
-    private Result(int code) {
+    public Result(int code, String msg,Object object) {
+        this.code = code;
+        this.msg = msg;
+        data = new HashMap<>();
+        data.put(msg,object);
+    }
+
+
+    public Result(int code) {
         this.code = code;
         for (ResultCode rc : ResultCode.values()) {
             if (code == rc.code()) {
