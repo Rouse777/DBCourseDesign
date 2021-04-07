@@ -11,13 +11,15 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 
 @Component
-
+@Slf4j
 public class Filter01 implements Filter {
 
 
@@ -29,26 +31,19 @@ public class Filter01 implements Filter {
     }
 
     public void doFilter(ServletRequest request1, ServletResponse response1, FilterChain filterChain) throws IOException, ServletException {
-
-
-        System.out.println("Corsfilter");
         HttpServletRequest request=(HttpServletRequest)request1;
         HttpServletResponse response=(HttpServletResponse)response1;
 
+        String origin = request.getHeader("Origin");
 
-        String orignalHeader = request.getHeader("Origin");
-        System.out.println(orignalHeader);
-
-        response.addHeader("Access-Control-Allow-Origin", orignalHeader);
-        System.out.println("orignalHeader:"+orignalHeader);
+        response.addHeader("Access-Control-Allow-Origin", origin);
+        log.info("origin:{}",origin);
         response.addHeader("Access-Control-Allow-Credentials", "true");
         response.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
         response.addHeader("Access-Control-Allow-Headers", request.getHeader("Access-Control-Request-Headers"));
 
-
         if ("OPTIONS".equals(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
-            return;
         } else {
             filterChain.doFilter(request, response);
         }

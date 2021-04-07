@@ -8,7 +8,10 @@ spring:
     removeAbandoned: false
     druid:
       max-wait: 3600  #一小时重连一次数据库
-
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
 server:
   port: 8888
 
