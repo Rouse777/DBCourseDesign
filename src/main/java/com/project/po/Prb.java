@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("tbprb")
+@TableName("prb")
 @ApiModel(value="Prb对象", description="优化区17日-19日每PRB干扰 查询-15分钟")
 public class Prb implements Serializable {
 

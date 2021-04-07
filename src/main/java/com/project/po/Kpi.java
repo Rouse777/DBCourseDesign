@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("tbkpi")
+@TableName("kpi")
 @ApiModel(value="Kpi对象", description="优化小区 2020/07/17-2020/07/19KPI 指标统计表 tbKPI")
 public class Kpi implements Serializable {
 
@@ -55,15 +55,15 @@ public class Kpi implements Serializable {
     private Float RCCConnRATE;
 
     @ApiModelProperty(value = "E-RAB 连接建立完成次数")
-    @TableField("E-RABConnSUCC")
+    @TableField("ERABConnSUCC")
     private Integer ERABConnSUCC;
 
     @ApiModelProperty(value = "E-RAB 连接请求次数")
-    @TableField("E-RABConnATT")
+    @TableField("ERABConnATT")
     private Integer ERABConnATT;
 
     @ApiModelProperty(value = "E-RAB连接成功率")
-    @TableField("E-RABConnRATE")
+    @TableField("ERABConnRATE")
     private Float ERABConnRATE;
 
 

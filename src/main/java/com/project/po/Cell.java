@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("tbcell")
+@TableName("cell")
 @ApiModel(value="Cell对象", description="小区/基站工参表")
 public class Cell implements Serializable {
 

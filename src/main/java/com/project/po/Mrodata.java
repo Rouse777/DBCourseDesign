@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("tbmrodata")
+@TableName("mro_data")
 @ApiModel(value="Mrodata对象", description=" MRO 测量报告数据表")
 public class Mrodata implements Serializable {
 

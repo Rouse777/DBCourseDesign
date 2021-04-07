@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("tbprbnew")
+@TableName("prb_new")
 @ApiModel(value="Prbnew对象", description="")
 public class Prbnew implements Serializable {
 
