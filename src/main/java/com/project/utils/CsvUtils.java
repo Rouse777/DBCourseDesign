@@ -14,7 +14,7 @@ public  class CsvUtils {
         BigFileReader.Builder builder = new BigFileReader.Builder(filename, new Csv_handle(),mode);
         builder.withTreahdSize(10)
                 .withCharset("utf-8")
-                .withBufferSize(1024 * 1024).withBulkSize(120);
+                .withBufferSize(1024 * 1024).withBulkSize(300);//bulksize可以随时修改
 
         BigFileReader bigFileReader = builder.build();
         bigFileReader.start();

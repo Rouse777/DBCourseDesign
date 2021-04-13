@@ -54,7 +54,7 @@ public class BigFileReader {
 
 
 
-    public void start(){
+    public void start() throws Exception{
         long everySize = this.fileLength/this.threadSize;
         try {
             calculateStartEnd(0, everySize);
@@ -133,7 +133,7 @@ public class BigFileReader {
         }
         this.executorService.shutdown();
     }
-    private void handle(byte[] bytes) throws UnsupportedEncodingException{
+    private void handle(byte[] bytes) throws Exception{
         String line = null;
         if(this.charset==null){
             line = new String(bytes);
@@ -252,6 +252,7 @@ public class BigFileReader {
         private String mode;
         public Builder(String file, IHandle handle,String mode) {
             this.file = new File(file);
+            this.mode=mode;
             if(!this.file.exists())
                 throw new IllegalArgumentException("文件不存在！");
             this.handle = handle;
