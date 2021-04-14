@@ -5,7 +5,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,20 +79,17 @@ public class Csv_handle implements IHandle{
          }
 
          insertBatch(object_lines);
-
-
-
     }
 
 
     @Transactional
     @SneakyThrows
     public <T> void insertBatch(List<T> target) {
-        SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
-        T mapper = sqlSession.getMapper(T.class);
-        for (int i = 0; i < target.size(); i++) {
-            mapper.insertSelective(target.get(i));
-        }
-        sqlSession.flushStatements();
+//        SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH);
+//        T mapper = sqlSession.getMapper(T.class);
+//        for (int i = 0; i < target.size(); i++) {
+//            mapper.insertSelective(target.get(i));
+//        }
+//        sqlSession.flushStatements();
     }
 }

@@ -6,9 +6,6 @@ import lombok.SneakyThrows;
 import java.util.List;
 
 public  class CsvUtils {
-
-
-
     @SneakyThrows
     public static void start(String filename,String mode) {
         BigFileReader.Builder builder = new BigFileReader.Builder(filename, new Csv_handle(),mode);
@@ -18,8 +15,5 @@ public  class CsvUtils {
 
         BigFileReader bigFileReader = builder.build();
         bigFileReader.start();
-
     }
-
-
 }

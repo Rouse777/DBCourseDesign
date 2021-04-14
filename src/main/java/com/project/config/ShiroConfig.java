@@ -2,14 +2,10 @@ package com.project.config;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.spring.LifecycleBeanPostProcessor;
-import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
@@ -17,8 +13,9 @@ import java.util.Map;
 
 @Configuration
 public class ShiroConfig {
-    public static final String HASH_ALGORITHM="md5";
-    public static final int HASH_ITERATIONS=2;
+    public static final String HASH_ALGORITHM = "md5";
+    public static final int HASH_ITERATIONS = 2;
+
     @Bean(name = "shiroFilter")
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
@@ -27,7 +24,6 @@ public class ShiroConfig {
         Map<String, Filter> filters = new LinkedHashMap<>();
         filters.put("user", new StatelessAuthcFilter());
         shiroFilterFactoryBean.setFilters(filters);
-        System.out.println("cors fillter");
 
 
         //未登录时跳转
@@ -59,7 +55,7 @@ public class ShiroConfig {
 
         //剩余的都需要认证(这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截)
         //测试时将权限改为"anon"避免每次需要登录，发布时改为"authc"
-        filterChainDefinitionMap.put("/**", "anon");
+        filterChainDefinitionMap.put("/**", "authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;

@@ -1,7 +1,10 @@
 package com.project.service;
 
+import com.project.po.Cell;
 import com.project.po.Mrodata;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2021-03-28
  */
 public interface MrodataService extends IService<Mrodata> {
-
+    public void cleanAndSaveBatch(List<Mrodata> data);
 }

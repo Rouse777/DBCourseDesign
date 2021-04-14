@@ -14,6 +14,7 @@ import java.util.List;
  * @since 2021-03-28
  */
 public interface PrbService extends IService<Prb> {
+    void cleanAndSaveBatch(List<Prb> entityList);
     List<String> listEnodebName();
     List<Prb> listByEnodebName(String enodebName,String from,String to);
 }

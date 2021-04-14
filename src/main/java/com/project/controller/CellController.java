@@ -38,7 +38,7 @@ public class CellController {
     @PostMapping("")
     public Result importData(@RequestParam("file") MultipartFile file) {
         log.info("收到文件：{}，大小为{}KB", file.getOriginalFilename(), file.getSize() / 1024.0);
-        if (!ExcelUtils.isExcelName(file.getOriginalFilename()))
+        if (ExcelUtils.isNotExcelName(file.getOriginalFilename()))
             return Result.any(ResultCode.ILLEGAL_ARGS, "文件扩展名不是.xlsx");
         List<Cell> cells = ExcelUtils.getListByExcel(file, Cell.class);
         System.out.println(cells);

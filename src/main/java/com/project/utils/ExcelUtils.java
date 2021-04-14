@@ -11,18 +11,19 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * excel工具类，poi解析Excel文件,并利用反射返回封装类的列表
  *
- * @Author 王景扬
  */
 @Slf4j
 public class ExcelUtils {
     /**
-     * @param file excel格式的文件
+     * @param file  excel格式的文件
      * @param klass 封装类对象
      * @return 封装类的列表
      */
@@ -31,12 +32,13 @@ public class ExcelUtils {
         String extName = getExcelExtName(file.getOriginalFilename());
         if (extName == null) return null;
         return getListByExcel(file.getInputStream(), extName, klass);
+
     }
 
     /**
-     * @param in 输入流
+     * @param in      输入流
      * @param extName excel的扩展名，xls或xlsx
-     * @param klass 封装类对象
+     * @param klass   封装类对象
      * @return 封装类的列表
      */
     @SneakyThrows
@@ -45,7 +47,7 @@ public class ExcelUtils {
         List<T> list = new ArrayList<>();
 
         // 创建excel工作簿
-        try(Workbook work = getWorkbook(in, extName)){
+        try (Workbook work = getWorkbook(in, extName)) {
             if (null == work) {
                 throw new Exception("创建Excel工作薄为空！");
             }
@@ -58,13 +60,12 @@ public class ExcelUtils {
                 //根据表头按顺序获取封装类对应的Field对象
                 if (r == row.getFirstCellNum()) {
                     fieldList = getFieldsByRow(row, klass);
-                    /*for(Field field:fieldList){
-                        System.out.println(field);
-                    }*/
                     continue;
                 }
                 //根据文件一行的记录和fieldList获得封装类
-                list.add(getObjFromRow(row, fieldList, klass));
+                T obj = getObjFromRow(row, fieldList, klass);
+                System.out.println(obj);
+                list.add(obj);
             }
         }
         return list;
@@ -124,11 +125,11 @@ public class ExcelUtils {
             Cell cell = cellList.get(i);
             Class<?> type = field.getType();
             if (type == Integer.class) {
-                field.set(instance,getIntegerFromCell(cell));
+                field.set(instance, getIntegerFromCell(cell));
             } else if (type == Float.class) {
-                field.set(instance,getFloatFromCell(cell));
+                field.set(instance, getFloatFromCell(cell));
             } else if (type == String.class) {
-                field.set(instance,getStringFromCell(cell));
+                field.set(instance, getStringFromCell(cell));
             } else {
                 log.warn("无法赋值的类型：{}", type.getName());
             }
@@ -136,35 +137,35 @@ public class ExcelUtils {
         return instance;
     }
 
-    private static Integer getIntegerFromCell(Cell cell){
+    private static Integer getIntegerFromCell(Cell cell) {
         CellType type = cell.getCellType();
-        if(type==CellType.NUMERIC){
-            return (int)cell.getNumericCellValue();
-        }
-        else if(type==CellType.STRING){
+        if (type == CellType.NUMERIC) {
+            return (int) cell.getNumericCellValue();
+        } else if (type == CellType.STRING) {
             return Integer.parseInt(cell.getStringCellValue());
-        }else if(type==CellType.FORMULA){
+        } else if (type == CellType.FORMULA) {
             return null;
-        }else{
-            log.warn("不能处理的cell类型:{}",cell.getCellType());
+        } else {
+            log.warn("不能处理的cell类型:{}", cell.getCellType());
             return null;
         }
     }
-    private static Float getFloatFromCell(Cell cell){
+
+    private static Float getFloatFromCell(Cell cell) {
         CellType type = cell.getCellType();
-        if(type==CellType.NUMERIC){
-            return (float)cell.getNumericCellValue();
-        }
-        else if(type==CellType.STRING){
+        if (type == CellType.NUMERIC) {
+            return (float) cell.getNumericCellValue();
+        } else if (type == CellType.STRING) {
             return Float.parseFloat(cell.getStringCellValue());
-        }else if(type==CellType.FORMULA){
+        } else if (type == CellType.FORMULA) {
             return null;
-        }else{
-            log.warn("不能处理的cell类型:{}",cell.getCellType());
+        } else {
+            log.warn("不能处理的cell类型:{}", cell.getCellType());
             return null;
         }
     }
-    private static String getStringFromCell(Cell cell){
+
+    private static String getStringFromCell(Cell cell) {
         return cell.getStringCellValue();
     }
 
@@ -186,8 +187,8 @@ public class ExcelUtils {
         return fileName.substring(idx);
     }
 
-    public static boolean isExcelName(String fileName) {
-        return getExcelExtName(fileName) != null;
+    public static boolean isNotExcelName(String fileName) {
+        return getExcelExtName(fileName) == null;
     }
 
     @SneakyThrows

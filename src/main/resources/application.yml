@@ -10,8 +10,8 @@ spring:
       max-wait: 3600  #一小时重连一次数据库
   servlet:
     multipart:
-      max-file-size: 500MB
-      max-request-size: 500MB
+      max-file-size: -1 #无限大小
+      max-request-size: -1
 server:
   port: 8888
 
@@ -19,5 +19,4 @@ mybatis-plus:
   configuration:
     use-generated-keys: true #更新或插入数据返回时，主键一起返回
     removeAbandoned: false
-
 
