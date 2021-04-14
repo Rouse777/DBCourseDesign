@@ -26,7 +26,7 @@ public interface DataSourceConfigMapper {
     @Select("select @@session.innodb_buffer_pool_size")
     Map<String, Map<String, Long>> getbuffer_size();
 
-    @Select("SELECT partition_name FROM information_schema.partitions WHERE table_name = '#{name}'")
+    @Select("SELECT partition_name FROM information_schema.partitions WHERE table_name = #{name}")
     List<String> getPartition(@Param("name") String tableName);
 
     @Select("set session innodb_buffer_pool_size = #{value}")
