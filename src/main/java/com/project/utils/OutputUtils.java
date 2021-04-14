@@ -36,16 +36,16 @@ public class OutputUtils {
     @Autowired
     OutputMapper output;
 
-    public void output(String Dir,String filename)throws  Exception{
+    public void output(String filename)throws  Exception{
 
-       //linux下换行符为/r
+       //linux下换行符为\n
         String content="";
-        String path=Dir+"/"+filename+".txt";
+        String path="/root/server/"+"output0"+"/"+filename+".txt";
         File file=new File(path);
-        BufferedWriter out = new BufferedWriter(new FileWriter(file,true),3*1024*1024);
+        BufferedWriter out = new BufferedWriter(new FileWriter(file,false),10*1024*1024);
 
 
-       if(filename.equals("cell"))
+       if(filename.equals("cell"))//未考虑查询为空的情况
        {
 
            List<Cell> ans=cellservice.list();
@@ -53,7 +53,7 @@ public class OutputUtils {
            Class T=Cell.class;
            for(int i=0;i<field.size()-1;i++)
                content+=(field.get(i)+",");
-           content+=(field.get(field.size()-1)+"/r");
+           content+=(field.get(field.size()-1)+"\n");
 
            Field[] fields=T.getDeclaredFields();
 
@@ -61,22 +61,24 @@ public class OutputUtils {
 
                Cell temp=ans.get(i);
                for(int j=0;j<(fields.length-1);j++){
-
-                   content+=(fields[j].get(temp).toString()+",");
+                   fields[j].setAccessible(true);
+                   if(fields[j].getName()=="serialVersionUID")continue;
+                   if(fields[j].get(temp)!=null)content+=(fields[j].get(temp).toString().strip()+",");
                }
-               content+=(fields[fields.length-1].get(temp).toString()+"/r");
+               fields[fields.length-1].setAccessible(true);
+               content+=(fields[fields.length-1].get(temp).toString()+"\n");
 
            }
 
        }
-       else if(filename.equals("kpi"))
+       else if(filename.equals("kpi"))//未考虑查询为空的情况
         {
             List<Kpi> ans=kpiservice.list();
             List<String> field= output.getFields("kpi");
             Class T=Kpi.class;
             for(int i=0;i<field.size()-1;i++)
                 content+=(field.get(i)+",");
-            content+=(field.get(field.size()-1)+"/r");
+            content+=(field.get(field.size()-1)+"\n");
 
             Field[] fields=T.getDeclaredFields();
 
@@ -84,21 +86,23 @@ public class OutputUtils {
 
                 Kpi temp=ans.get(i);
                 for(int j=0;j<(fields.length-1);j++){
-
-                    content+=(fields[j].get(temp).toString()+",");
+                    fields[j].setAccessible(true);
+                    if(fields[j].getName()=="serialVersionUID")continue;
+                    if(fields[j].get(temp)!=null)content+=(fields[j].get(temp).toString().strip()+",");
                 }
-                content+=(fields[fields.length-1].get(temp).toString()+"/r");
+                fields[fields.length-1].setAccessible(true);
+                content+=(fields[fields.length-1].get(temp).toString()+"\n");
 
             }
         }
-       else if(filename.equals("prb_new"))
+       else if(filename.equals("prb_new"))//未考虑查询为空的情况
        {
            List<Prbnew> ans=prbnewservice.list();
            List<String> field= output.getFields("prb_new");
            Class T=Prbnew.class;
            for(int i=0;i<field.size()-1;i++)
                content+=(field.get(i)+",");
-           content+=(field.get(field.size()-1)+"/r");
+           content+=(field.get(field.size()-1)+"\n");
 
            Field[] fields=T.getDeclaredFields();
 
@@ -106,10 +110,14 @@ public class OutputUtils {
 
                Prbnew temp=ans.get(i);
                for(int j=0;j<(fields.length-1);j++){
-
-                   content+=(fields[j].get(temp).toString()+",");
+                   fields[j].setAccessible(true);
+                   if(fields[j].getName()=="serialVersionUID")continue;
+                   if(fields[j].get(temp)!=null)content+=(fields[j].get(temp).toString().strip()+",");
                }
-               content+=(fields[fields.length-1].get(temp).toString()+"/r");
+               fields[fields.length-1].setAccessible(true);
+               content+=(fields[fields.length-1].get(temp).toString()+"\n");
+
+
 
            }
        }
@@ -117,6 +125,7 @@ public class OutputUtils {
        out.write(content);
        out.flush();
        out.close();
+
        return;
 
 
