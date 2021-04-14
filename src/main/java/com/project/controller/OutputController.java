@@ -44,11 +44,11 @@ public class OutputController {
 
 //        if(!dir.matches("output[0~5]"))return Result.fail("非法存储路径选项");
 
+        output.output(filename);
 
         try {
             File file = new File("/root/server/output0/"+filename+".txt");
 //            File file = new File("D:\\Desktop"+"\\"+filename+".txt");
-            if(!file.exists()) output.output(filename);
 
             log.info(file.getPath());
             String ext = "txt";

@@ -117,14 +117,14 @@ public class OutputUtils {
                fields[fields.length-1].setAccessible(true);
                content+=(fields[fields.length-1].get(temp).toString()+"\n");
 
+
+
            }
        }
 
        out.write(content);
        out.flush();
        out.close();
-
-
 
        return;
 
