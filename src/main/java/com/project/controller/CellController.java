@@ -41,7 +41,7 @@ public class CellController {
         if (ExcelUtils.isNotExcelName(file.getOriginalFilename()))
             return Result.any(ResultCode.ILLEGAL_ARGS, "文件扩展名不是.xlsx");
         List<Cell> cells = ExcelUtils.getListByExcel(file, Cell.class);
-        System.out.println(cells);
+        cellService.cleanAndSaveBatch(cells);
         return Result.success();
     }
 

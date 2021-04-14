@@ -11,7 +11,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -21,7 +20,7 @@ import java.util.List;
  * 优化区17日-19日每PRB干扰 查询-15分钟 前端控制器
  * </p>
  *
- * @author 
+ * @author
  * @since 2021-03-28
  */
 @RestController
@@ -38,14 +37,15 @@ public class PrbController {
 
     @ApiOperation("PRB数据导入，Excel文件")
     @PostMapping("")
-    public Result importData(@RequestParam("file") MultipartFile file){
-        log.info("收到文件：{}，大小为{}KB",file.getOriginalFilename(),file.getSize()/1024.0);
-        if(ExcelUtils.isNotExcelName(file.getOriginalFilename()))
-            return Result.any(ResultCode.ILLEGAL_ARGS,"文件扩展名不是.xlsx");
+    public Result importData(@RequestParam("file") MultipartFile file) {
+        log.info("收到文件：{}，大小为{}KB", file.getOriginalFilename(), file.getSize() / 1024.0);
+        if (ExcelUtils.isNotExcelName(file.getOriginalFilename()))
+            return Result.any(ResultCode.ILLEGAL_ARGS, "文件扩展名不是.xlsx");
         List<Prb> prbs = ExcelUtils.getListByExcel(file, Prb.class);
-        System.out.println(prbs);
+        prbService.cleanAndSaveBatch(prbs);
         return Result.success();
     }
+
     @ApiOperation("查询PRB表中的所有ENODEB_NAME（网元名称）")
     @GetMapping("/enodeb-name")
     public Result getEnodebNames() {
@@ -58,7 +58,7 @@ public class PrbController {
     public Result getByEnodebName(@PathVariable String enodebName,
                                   @RequestParam(required = false) String from,
                                   @RequestParam(required = false) String to) {
-        List<Prb> prbs = prbService.listByEnodebName(enodebName,from,to);
+        List<Prb> prbs = prbService.listByEnodebName(enodebName, from, to);
         return Result.success().put("prbs", prbs);
     }
 }

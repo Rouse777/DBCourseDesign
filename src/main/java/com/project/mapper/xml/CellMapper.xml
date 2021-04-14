@@ -2,4 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.mapper.CellMapper">
 
+    <insert id="insertOrUpdateBatch">
+        insert into LTE_system.cell(`CITY`,`SECTOR_ID`,`SECTOR_NAME`,`ENODEBID`,
+        `ENODEB_NAME`,`EARFCN`,`PCI`,`PSS`,`SSS`,`TAC`,`VENDOR`,`LONGITUDE`,
+        `LATITUDE`,`STYLE`,`AZIMUTH`,`HEIGHT`,`ELECTTILT`,`MECHTILT`,`TOTLETILT`)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.city},#{item.sectorId},#{item.sectorName},#{item.enodebid},#{item.enodebName},#{item.earfcn},#{item.pci},#{item.pss},#{item.sss},#{item.tac},#{item.vendor},#{item.longitude},#{item.latitude},#{item.style},#{item.azimuth},#{item.height},#{item.electtilt},#{item.mechtilt},#{item.totletilt})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        CITY=values(CITY),
+        SECTOR_NAME=values(SECTOR_NAME),
+        ENODEBID=values(ENODEBID),
+        ENODEB_NAME=values(ENODEB_NAME),
+        EARFCN=values(EARFCN),
+        PCI=values(PCI),
+        PSS=values(PSS),
+        SSS=values(SSS),
+        TAC=values(TAC),
+        VENDOR=values(VENDOR),
+        LONGITUDE=values(LONGITUDE),
+        LATITUDE=values(LATITUDE),
+        STYLE=values(STYLE),
+        AZIMUTH=values(AZIMUTH),
+        HEIGHT=values(HEIGHT),
+        ELECTTILT=values(ELECTTILT),
+        MECHTILT=values(MECHTILT),
+        TOTLETILT=values(TOTLETILT)
+    </insert>
 </mapper>

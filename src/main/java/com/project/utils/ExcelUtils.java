@@ -18,7 +18,6 @@ import java.util.Map;
 
 /**
  * excel工具类，poi解析Excel文件,并利用反射返回封装类的列表
- *
  */
 @Slf4j
 public class ExcelUtils {
@@ -29,10 +28,13 @@ public class ExcelUtils {
      */
     @SneakyThrows
     public static <T> List<T> getListByExcel(MultipartFile file, Class<T> klass) {
-        String extName = getExcelExtName(file.getOriginalFilename());
+        String filename = file.getOriginalFilename();
+        String extName = getExcelExtName(filename);
         if (extName == null) return null;
-        return getListByExcel(file.getInputStream(), extName, klass);
-
+        log.info("开始解析：{}",filename);
+        List<T> list = getListByExcel(file.getInputStream(), extName, klass);
+        log.info("解析完毕：{}",filename);
+        return list;
     }
 
     /**
@@ -64,7 +66,6 @@ public class ExcelUtils {
                 }
                 //根据文件一行的记录和fieldList获得封装类
                 T obj = getObjFromRow(row, fieldList, klass);
-                System.out.println(obj);
                 list.add(obj);
             }
         }
@@ -124,20 +125,24 @@ public class ExcelUtils {
             Field field = fieldList.get(i);
             Cell cell = cellList.get(i);
             Class<?> type = field.getType();
-            if (type == Integer.class) {
-                field.set(instance, getIntegerFromCell(cell));
-            } else if (type == Float.class) {
-                field.set(instance, getFloatFromCell(cell));
-            } else if (type == String.class) {
-                field.set(instance, getStringFromCell(cell));
-            } else {
-                log.warn("无法赋值的类型：{}", type.getName());
+            try {
+                if (type == Integer.class) {
+                    field.set(instance, getIntegerFromCell(cell));
+                } else if (type == Float.class) {
+                    field.set(instance, getFloatFromCell(cell));
+                } else if (type == String.class) {
+                    field.set(instance, getStringFromCell(cell));
+                } else {
+                    log.warn("无法赋值的类型：{}", type.getName());
+                }
+            } catch (NumberFormatException e) {
+                log.warn("非数字类型，无法转换");
             }
         }
         return instance;
     }
 
-    private static Integer getIntegerFromCell(Cell cell) {
+    private static Integer getIntegerFromCell(Cell cell){
         CellType type = cell.getCellType();
         if (type == CellType.NUMERIC) {
             return (int) cell.getNumericCellValue();

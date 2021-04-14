@@ -6,6 +6,7 @@ import com.project.mapper.KpiMapper;
 import com.project.po.Kpi;
 import com.project.po.Mrodata;
 import com.project.service.KpiService;
+import com.project.utils.LogUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,8 +27,9 @@ public class KpiServiceImpl extends ServiceImpl<KpiMapper, Kpi> implements KpiSe
         List<Kpi> res = new ArrayList<>();
         for (Kpi entity : entityList) {
             if (isValid(entity)) res.add(entity);
+            else LogUtils.logObj(entity);
         }
-        super.saveOrUpdateBatch(res);
+        baseMapper.insertOrUpdateBatch(res);
     }
     private boolean isValid(Kpi entity){
         //获取需要清洗的字段

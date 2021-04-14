@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.project.mapper.CellMapper;
 import com.project.po.Cell;
 import com.project.service.CellService;
+import com.project.utils.LogUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,10 +25,19 @@ public class CellServiceImpl extends ServiceImpl<CellMapper, Cell> implements Ce
     @Override
     public void cleanAndSaveBatch(List<Cell> entityList) {
         List<Cell> res = new ArrayList<>();
+
         for (Cell entity : entityList) {
-            if (isValid(entity)) res.add(entity);
+            if (isValid(entity)) {
+                res.add(entity);
+            } else LogUtils.logObj(entity);
         }
-        super.saveOrUpdateBatch(res);
+        baseMapper.insertOrUpdateBatch(res);
+    }
+
+    private boolean isIdExist(Cell cell) {
+        return super.getOne(new QueryWrapper<Cell>()
+                .select("SECTOR_ID")
+                .eq("SECTOR_ID", cell.getSectorId())) != null;
     }
 
     private boolean isValid(Cell cell) {
@@ -65,21 +75,21 @@ public class CellServiceImpl extends ServiceImpl<CellMapper, Cell> implements Ce
 
         //PCI between(0,503)
         if (pci < 0 || pci > 503) return false;
-        if ( pss != null && sss != null) {
+        if (pss != null && sss != null) {
             //PSS in (0,1,2)
             if (pss < 0 || pss > 2) return false;
             //SSS between(0,167)
             if (sss < 0 || sss > 167) return false;
             //PCI= 3*SSS + PSS
-            if(pci!=3*sss+pss)return false;
+            if (pci != 3 * sss + pss) return false;
         }
         //Longitude between(-180,180)
-        if(longitude<-180||longitude>180) return false;
+        if (longitude < -180 || longitude > 180) return false;
         //Latitude between(-90,90)
-        if(latitude<-90||latitude>90)return false;
+        if (latitude < -90 || latitude > 90) return false;
 
         //TOTLETILT= ELECTTILT+ MECHTILT(浮点相等判断)
-        if(Math.abs(electtilt+mechtilt-totletilt)>0.01)return false;
+        if (Math.abs(electtilt + mechtilt - totletilt) > 0.01) return false;
 
         return true;
     }

@@ -2,4 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.mapper.KpiMapper">
 
+    <insert id="insertOrUpdateBatch">
+        insert into LTE_system.kpi(`StartTime`,
+        `ENODEB_NAME`,
+        `SECTOR_DESCRIPTION`,
+        `SECTOR_NAME`,
+        `RCCConnSUCC`,
+        `RCCConnATT`,
+        `RCCConnRATE`,
+        `ERABConnSUCC`,
+        `ERABConnATT`,
+        `ERABConnRATE`
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.StartTime},#{item.enodebName},#{item.sectorDescription},#{item.sectorName},
+            #{item.RCCConnSUCC},#{item.RCCConnATT},#{item.RCCConnRATE},#{item.ERABConnSUCC},
+            #{item.ERABConnATT},#{item.ERABConnRATE})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        ENODEB_NAME=values(ENODEB_NAME),
+        SECTOR_DESCRIPTION=values(SECTOR_DESCRIPTION),
+        RCCConnSUCC=values(RCCConnSUCC),
+        RCCConnATT=values(RCCConnATT),
+        RCCConnRATE=values(RCCConnRATE),
+        ERABConnSUCC=values(ERABConnSUCC),
+        ERABConnATT=values(ERABConnATT),
+        ERABConnRATE=values(ERABConnRATE)
+    </insert>
 </mapper>

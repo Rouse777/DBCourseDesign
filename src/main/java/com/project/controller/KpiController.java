@@ -42,7 +42,7 @@ public class KpiController {
         if (ExcelUtils.isNotExcelName(file.getOriginalFilename()))
             return Result.any(ResultCode.ILLEGAL_ARGS, "文件扩展名不是.xlsx");
         List<Kpi> kpis = ExcelUtils.getListByExcel(file, Kpi.class);
-        System.out.println(kpis);
+        kpiService.cleanAndSaveBatch(kpis);
         return Result.success();
     }
 

@@ -35,7 +35,7 @@ public class Mrodata implements Serializable {
     private String ServingSector;
 
     @ApiModelProperty(value = "干扰小区 ID")
-      @TableId(value = "InterferingSector", type = IdType.AUTO)
+      @TableId(value = "InterferingSector")
     private String InterferingSector;
 
     @ApiModelProperty(value = "服务小区参考信号接收功率 RSRP")

@@ -2,4 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.mapper.MrodataMapper">
 
+    <insert id="insertOrUpdateBatch">
+        insert into LTE_system.mro_data(
+        `TimeStamp`,
+        `ServingSector`,
+        `InterferingSector`,
+        `LteScRSRP`,
+        `LteNcRSRP`,
+        `LteNcEarfcn`,
+        `LteNcPci`
+        )
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.TimeStamp},#{item.ServingSector},#{item.InterferingSector},#{item.LteScRSRP},
+            #{item.LteNcRSRP},#{item.LteNcEarfcn},#{item.LteNcPci})
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+        `LteScRSRP`=values(LteScRSRP),
+        `LteNcRSRP`=values(LteNcRSRP),
+        `LteNcEarfcn`=values(LteNcEarfcn),
+        `LteNcPci`=values(LteNcPci)
+    </insert>
 </mapper>

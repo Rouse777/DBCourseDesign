@@ -5,6 +5,7 @@ import com.project.po.Mrodata;
 import com.project.mapper.MrodataMapper;
 import com.project.service.MrodataService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.project.utils.LogUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,8 +25,9 @@ public class MrodataServiceImpl extends ServiceImpl<MrodataMapper, Mrodata> impl
         List<Mrodata> res = new ArrayList<>();
         for (Mrodata entity : entityList) {
             if (isValid(entity)) res.add(entity);
+            else LogUtils.logObj(entity);
         }
-        super.saveOrUpdateBatch(res);
+        baseMapper.insertOrUpdateBatch(res);
     }
     private boolean isValid(Mrodata mroData){
         String timeStamp = mroData.getTimeStamp();

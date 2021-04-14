@@ -95,7 +95,7 @@ public class Csv_handle implements IHandle{
                     object_lines.add(temp1);
 
                 }
-                cleanAndSaveBatch(object_lines);
+                //cleanAndSaveBatch(object_lines);
 //                  System.out.println(object_lines);
 
 

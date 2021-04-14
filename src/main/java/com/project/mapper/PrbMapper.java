@@ -1,7 +1,11 @@
 package com.project.mapper;
 
+import com.project.po.Kpi;
 import com.project.po.Prb;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +16,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2021-03-28
  */
 public interface PrbMapper extends BaseMapper<Prb> {
-
+    void insertOrUpdateBatch(@Param("list") List<Prb> list);
 }
