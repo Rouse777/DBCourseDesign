@@ -3,7 +3,10 @@ package com.project.utils;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.project.po.*;
+import com.project.service.*;
+import com.project.service.KpiService;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -18,10 +21,25 @@ import java.util.List;
 @Mapper
 public class Csv_handle implements IHandle {
 
+    @Autowired
+    CellService cellservice;
+
+    @Autowired
+    KpiService kpiservice;
+
+    @Autowired
+    MrodataService mrodataservice;
+
+    @Autowired
+    PrbService prbservice;
+
+    @Autowired
+    PrbnewService prbnewservice;
+
 
     @Override
     public void handle(List<String> lines, String ziduan) throws Exception {//缺数据清洗
-        System.out.println(lines.size());
+//        System.out.println(lines.size());
         List<String> fields = Arrays.asList(ziduan.split(","));//表中的字段
         Class t = Class.forName("com.project.po." + BigFileReader.mode);
         Constructor temp = t.getDeclaredConstructor();
@@ -60,7 +78,7 @@ public class Csv_handle implements IHandle {
                             cur = k.getName();
                         }
 
-
+//                       System.out.println(cur+": "+line[hash.get(cur)]);
                         if (k.getType().equals(Float.class)) {
                             k.set(temp1, Float.parseFloat(line[hash.get(cur)]));
 //                            System.out.println(line[hash.get(cur)]);
@@ -68,8 +86,8 @@ public class Csv_handle implements IHandle {
                             k.set(temp1, Integer.parseInt(line[hash.get(cur)]));
 //                            System.out.println(line[hash.get(cur)]);
                         } else if (k.getType().equals(String.class)) {
-                            k.set(temp1, line[hash.get(cur)]);
 //                            System.out.println(line[hash.get(cur)]);
+                            k.set(temp1, line[hash.get(cur)]);
                         } else if (k.getType().equals(BigDecimal.class)) {
 
                             k.set(temp1, BigDecimal.valueOf(Double.parseDouble(line[hash.get(cur)])));
@@ -83,10 +101,17 @@ public class Csv_handle implements IHandle {
                     object_lines.add(temp1);
 
                 }
-//                cleanAndSaveBatch(object_lines);
+
+                if(t.equals(Cell.class)) cellservice.cleanAndSaveBatch((List<Cell>)object_lines);
+                else if(t.equals(Kpi.class))kpiservice.cleanAndSaveBatch((List<Kpi>)object_lines);
+                else if(t.equals(Mrodata.class))mrodataservice.cleanAndSaveBatch((List<Mrodata>)object_lines);
+                else if(t.equals(Prb.class)) {
+                    System.out.println(object_lines);
+                    prbservice.cleanAndSaveBatch((List<Prb>) object_lines);
+
+
+                }
 //                  System.out.println(object_lines);
-
-
             }
 
         }
