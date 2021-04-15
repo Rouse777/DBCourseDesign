@@ -7,7 +7,9 @@ import com.project.service.*;
 import com.project.service.KpiService;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -18,7 +20,8 @@ import java.util.List;
 
 
 //对于一组记录的处理
-@Mapper
+
+@Component
 public class Csv_handle implements IHandle {
 
     @Autowired
@@ -35,6 +38,18 @@ public class Csv_handle implements IHandle {
 
     @Autowired
     PrbnewService prbnewservice;
+
+    private static Csv_handle csv_handle;
+
+         @PostConstruct
+          public void init() {
+                         csv_handle = this;
+                         csv_handle.cellservice=this.cellservice;
+                         csv_handle.kpiservice=this.kpiservice;
+                         csv_handle.mrodataservice=this.mrodataservice;
+                         csv_handle.prbnewservice=this.prbnewservice;
+                         csv_handle.prbservice=this.prbservice;
+                    }
 
 
     @Override
@@ -102,16 +117,12 @@ public class Csv_handle implements IHandle {
 
                 }
 
-                if(t.equals(Cell.class)) cellservice.cleanAndSaveBatch((List<Cell>)object_lines);
-                else if(t.equals(Kpi.class))kpiservice.cleanAndSaveBatch((List<Kpi>)object_lines);
-                else if(t.equals(Mrodata.class))mrodataservice.cleanAndSaveBatch((List<Mrodata>)object_lines);
+                if(t.equals(Cell.class)) csv_handle.cellservice.cleanAndSaveBatch((List<Cell>)object_lines);
+                else if(t.equals(Kpi.class))csv_handle.kpiservice.cleanAndSaveBatch((List<Kpi>)object_lines);
+                else if(t.equals(Mrodata.class))csv_handle.mrodataservice.cleanAndSaveBatch((List<Mrodata>)object_lines);
                 else if(t.equals(Prb.class)) {
-                    System.out.println(object_lines);
-                    prbservice.cleanAndSaveBatch((List<Prb>) object_lines);
-
-
+                    csv_handle.prbservice.cleanAndSaveBatch((List<Prb>) object_lines);
                 }
-//                  System.out.println(object_lines);
             }
 
         }

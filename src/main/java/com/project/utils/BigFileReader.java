@@ -11,6 +11,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 
+
+
 public class BigFileReader {
     private int threadSize;
     private String charset;
@@ -47,7 +49,7 @@ public class BigFileReader {
         startEndPairs = new HashSet<StartEndPair>();
         BufferedReader reader=new BufferedReader(new FileReader(file));
         this.field=reader.readLine();
-        System.out.println(this.field);
+//        System.out.println(this.field);
         reader.close();
 
     }

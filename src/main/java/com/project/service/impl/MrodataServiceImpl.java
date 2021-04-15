@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.project.utils.*;
 
 /**
  * <p>
@@ -20,14 +21,22 @@ import java.util.List;
  */
 @Service
 public class MrodataServiceImpl extends ServiceImpl<MrodataMapper, Mrodata> implements MrodataService {
+
+
     @Override
     public void cleanAndSaveBatch(List<Mrodata> entityList) {
+//        long a=System.currentTimeMillis();
         List<Mrodata> res = new ArrayList<>();
         for (Mrodata entity : entityList) {
             if (isValid(entity)) res.add(entity);
             else LogUtils.logObj(entity);
         }
+
         baseMapper.insertOrUpdateBatch(res);
+        long b=System.currentTimeMillis();
+        System.out.println("插入数据："+String.valueOf(res.size())+"  "+"用时："+String.valueOf(b-CsvUtils.starttime)+" "+"线程ID："+Thread.currentThread().getName());
+
+
     }
     private boolean isValid(Mrodata mroData){
         String timeStamp = mroData.getTimeStamp();

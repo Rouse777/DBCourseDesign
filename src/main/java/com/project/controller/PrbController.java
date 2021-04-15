@@ -67,7 +67,6 @@ public class PrbController {
             e.printStackTrace();
             return Result.fail();
         } finally {
-            deleteTempFile(file1);
             return Result.success();
         }
 
