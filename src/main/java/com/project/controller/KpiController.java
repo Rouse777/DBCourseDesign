@@ -36,7 +36,7 @@ public class KpiController {
     }
 
     @ApiOperation("KPI数据导入，Excel文件")
-    @PostMapping("")
+    @PostMapping("/excel")
     public Result importData(@RequestParam("file") MultipartFile file) {
         log.info("收到文件：{}，大小为{}KB", file.getOriginalFilename(), file.getSize() / 1024.0);
         if (ExcelUtils.isNotExcelName(file.getOriginalFilename()))

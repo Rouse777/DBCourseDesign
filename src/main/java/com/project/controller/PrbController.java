@@ -5,6 +5,7 @@ import com.project.po.Prb;
 import com.project.result.Result;
 import com.project.result.ResultCode;
 import com.project.service.PrbService;
+import com.project.utils.CsvUtils;
 import com.project.utils.ExcelUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,7 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
+
+import static com.project.utils.MultipartFileToFile.*;
 
 /**
  * <p>
@@ -35,8 +39,10 @@ public class PrbController {
         this.prbService = prbService;
     }
 
+
+
     @ApiOperation("PRB数据导入，Excel文件")
-    @PostMapping("")
+    @PostMapping("/excel")
     public Result importData(@RequestParam("file") MultipartFile file) {
         log.info("收到文件：{}，大小为{}KB", file.getOriginalFilename(), file.getSize() / 1024.0);
         if (ExcelUtils.isNotExcelName(file.getOriginalFilename()))
@@ -45,6 +51,27 @@ public class PrbController {
         prbService.cleanAndSaveBatch(prbs);
         return Result.success();
     }
+
+
+    @ApiOperation("PRB数据导入，csv文件")
+    @PostMapping("/csv")
+    public Result importData2(@RequestParam("file") MultipartFile file) {
+        log.info("收到文件：{}，大小为{}KB", file.getOriginalFilename(), file.getSize() / 1024.0);
+
+        File file1 = null;
+        try{
+            file1 = multipartFileToFile(file);
+            System.out.println("file.path: "+file1.getAbsolutePath());
+            CsvUtils.start(file1.getAbsolutePath(),"Prb");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.fail();
+        } finally {
+            return Result.success();
+        }
+
+    }
+
 
     @ApiOperation("查询PRB表中的所有ENODEB_NAME（网元名称）")
     @GetMapping("/enodeb-name")
