@@ -85,8 +85,6 @@ public class Csv_handle implements IHandle {
                 }
 //                cleanAndSaveBatch(object_lines);
 //                  System.out.println(object_lines);
-
-
             }
 
         }

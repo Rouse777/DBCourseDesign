@@ -42,7 +42,6 @@ public class UserController {
     @PostMapping("/register")
     @ApiOperation(value = "普通用户注册")
     public Result register(@RequestBody @Valid AuthUser authUser) {
-
             if(userService.getByName(authUser.getUsername())!=null)
                 return Result.success("注册失败，该用户已存在");
             if(redisTemplate.opsForValue().get(authUser.getUsername())!=null)

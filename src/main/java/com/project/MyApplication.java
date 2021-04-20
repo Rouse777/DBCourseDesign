@@ -12,7 +12,7 @@ public class MyApplication {
 
     public static void main(String[] args) {
         //不同jar包的多xml解析器冲突
-        System.setProperty("javax.xml.parsers.DocumentBuilderFactory", "com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl");
+        //System.setProperty("javax.xml.parsers.DocumentBuilderFactory", "com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl");
         SpringApplication.run(MyApplication.class, args);
     }
 

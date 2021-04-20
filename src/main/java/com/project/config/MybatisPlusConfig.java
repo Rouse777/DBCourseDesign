@@ -7,6 +7,11 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MybatisPlusConfig {
+    public MybatisPlusConfig() {
+        //不同jar包的多xml解析器冲突
+        System.setProperty("javax.xml.parsers.DocumentBuilderFactory", "com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl");
+    }
+
     //配置分页插件
     @Bean
     public MybatisPlusInterceptor paginationInterceptor() {
