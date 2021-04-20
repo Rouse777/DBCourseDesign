@@ -13,7 +13,7 @@ spring:
       max-file-size: -1 #无限大小
       max-request-size: -1
 server:
-  port: 8888
+  port: 8878
 
 mybatis-plus:
   configuration:
