@@ -107,17 +107,22 @@ public class UserController {
         UserPO ans = userService.getByName(authUser.getUsername());
         try {
             verifyUser(authUser);
-            return new Result(2000, "user", ans);
         } catch (UnknownAccountException e) {
             msg = "用户" + authUser + "登录失败，用户名不存在";
+            return Result.fail(msg);
+
         } catch (IncorrectCredentialsException e) {
             msg = "用户" + authUser + "登录失败，用户名或密码错误";
+            return Result.fail(msg);
+
         } catch (AuthenticationException e) {
             msg = "用户" + authUser + "登录失败，未知原因";
-        }
-        log.info(msg);
+            return Result.fail(msg);
 
+        }
         return new Result(2000, "user", ans);
+
+
     }
 
 
