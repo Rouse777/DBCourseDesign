@@ -2,8 +2,13 @@ package com.project.config;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.Cookie;
+import org.apache.shiro.web.servlet.ShiroHttpSession;
+import org.apache.shiro.web.servlet.SimpleCookie;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -61,11 +66,22 @@ public class ShiroConfig {
         return shiroFilterFactoryBean;
     }
 
-
+    @Bean
+    public SessionManager sessionManager() {
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        Cookie cookie = new SimpleCookie(ShiroHttpSession.DEFAULT_SESSION_ID_NAME);
+        cookie.setHttpOnly(false);
+        cookie.setSameSite(Cookie.SameSiteOptions.NONE);
+        sessionManager.setSessionIdCookie(cookie);
+        sessionManager.setSessionIdCookieEnabled(true);
+        sessionManager.setSessionIdUrlRewritingEnabled(true);
+        return sessionManager;
+    }
     @Bean
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(myRealm());
+        securityManager.setSessionManager(sessionManager());
         return securityManager;
     }
 
