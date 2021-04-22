@@ -31,10 +31,11 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setFilters(filters);
 
 
-        //未登录时跳转
-        shiroFilterFactoryBean.setLoginUrl("/unauthenticated");
-        //授权失败时跳转，即权限不足
-        shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized");
+//        //未登录时跳转
+//        shiroFilterFactoryBean.setLoginUrl("/unauthenticated");
+//        //授权失败时跳转，即权限不足
+//        shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized");
+
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // authc:必须登录才可以访问;
         // anon:任何人都可以访问;
@@ -42,6 +43,7 @@ public class ShiroConfig {
         // roles[ROLE_USER]:只有user才能访问
 
         //注册登录放行
+
         filterChainDefinitionMap.put("/login", "anon");
         filterChainDefinitionMap.put("/register", "anon");
 
@@ -55,12 +57,14 @@ public class ShiroConfig {
 
         //权限测试设置
         filterChainDefinitionMap.put("/check-login", "anon");
-        filterChainDefinitionMap.put("/test/user", "authc");
         filterChainDefinitionMap.put("/admin/**", "anon");
 
         //剩余的都需要认证(这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截)
         //测试时将权限改为"anon"避免每次需要登录，发布时改为"authc"
-        filterChainDefinitionMap.put("/**", "authc");
+
+
+
+        filterChainDefinitionMap.put("/**", "anon");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
