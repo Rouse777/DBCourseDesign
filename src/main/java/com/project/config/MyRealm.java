@@ -29,7 +29,7 @@ public class MyRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 
         //通过用户名从数据库获取角色字符串（一个用户只有一个角色）
-        String role=userService.getRoleByName(username);
+        String role = userService.getRoleByName(username);
         //添加角色
         info.setRoles(new HashSet<>(Collections.singletonList(role)));
         return info;
@@ -44,7 +44,7 @@ public class MyRealm extends AuthorizingRealm {
         String username = token.getPrincipal().toString();
         //根据用户名（唯一标识）从数据库里查到这个用户
         UserPO userInDB = userService.getByName(username);
-        if(userInDB==null)throw new UnknownAccountException("用户名不存在");
+        if (userInDB == null) throw new UnknownAccountException("用户名不存在");
         String passwordInDB = userInDB.getPassword();       //取出这个用户的密码
         //取出这个用户的盐
         String salt = userInDB.getSalt();

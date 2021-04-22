@@ -70,11 +70,14 @@ public class ShiroConfig {
     public SessionManager sessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
         Cookie cookie = new SimpleCookie(ShiroHttpSession.DEFAULT_SESSION_ID_NAME);
+
+        //安全字段设置
         cookie.setHttpOnly(false);
         cookie.setSameSite(Cookie.SameSiteOptions.NONE);
+        //cookie.setSecure(false);
+
         sessionManager.setSessionIdCookie(cookie);
         sessionManager.setSessionIdCookieEnabled(true);
-        sessionManager.setSessionIdUrlRewritingEnabled(true);
         return sessionManager;
     }
     @Bean
