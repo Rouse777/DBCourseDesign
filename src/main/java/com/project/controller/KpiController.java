@@ -54,8 +54,8 @@ public class KpiController {
     }
 
     @ApiOperation("根据SECTOR_NAME查询KPI记录，按StartTime升序")
-    @GetMapping("/by-sector-name/{sectorName}")
-    public Result getBySectorName(@PathVariable String sectorName) {
+    @GetMapping("/by-sector-name")
+    public Result getBySectorName(@RequestParam String sectorName) {
         List<Kpi> kpis = kpiService.listBySectorName(sectorName);
         return Result.success().put("kpis", kpis);
     }

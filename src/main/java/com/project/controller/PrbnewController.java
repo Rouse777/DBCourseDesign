@@ -39,8 +39,8 @@ public class PrbnewController {
     }
 
     @ApiOperation("根据NODEB_NAME查询PRBnew记录，按StartTime升序")
-    @GetMapping("/by-enodeb-name/{enodebName}")
-    public Result getByEnodebName(@PathVariable String enodebName,
+    @GetMapping("/by-enodeb-name")
+    public Result getByEnodebName(@RequestParam String enodebName,
                                   @RequestParam(required = false) String from,
                                   @RequestParam(required = false) String to) {
         List<Prbnew> prbnews = prbnewService.listByEnodebName(enodebName, from, to);

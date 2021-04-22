@@ -37,7 +37,7 @@ public class Filter01 implements Filter {
         String origin = request.getHeader("Origin");
 
         response.addHeader("Access-Control-Allow-Origin", origin);
-        log.info("origin:{}",origin);
+        //log.info("origin:{}",origin);
         response.addHeader("Access-Control-Allow-Credentials", "true");
         response.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
         response.addHeader("Access-Control-Allow-Headers", request.getHeader("Access-Control-Request-Headers"));

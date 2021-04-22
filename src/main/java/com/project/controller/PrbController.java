@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.util.List;
 
-import static com.project.utils.MultipartFileToFile.*;
+import static com.project.utils.MultipartFileToFile.multipartFileToFile;
 
 /**
  * <p>
@@ -40,7 +40,6 @@ public class PrbController {
     }
 
 
-
     @ApiOperation("PRB数据导入，Excel文件")
     @PostMapping("/excel")
     public Result importData(@RequestParam("file") MultipartFile file) {
@@ -59,17 +58,15 @@ public class PrbController {
         log.info("收到文件：{}，大小为{}KB", file.getOriginalFilename(), file.getSize() / 1024.0);
 
         File file1 = null;
-        try{
+        try {
             file1 = multipartFileToFile(file);
-            System.out.println("file.path: "+file1.getAbsolutePath());
-            CsvUtils.start(file1.getAbsolutePath(),"Prb");
+            System.out.println("file.path: " + file1.getAbsolutePath());
+            CsvUtils.start(file1.getAbsolutePath(), "Prb");
         } catch (Exception e) {
             e.printStackTrace();
             return Result.fail();
-        } finally {
-            return Result.success();
         }
-
+        return Result.success();
     }
 
 
@@ -81,8 +78,8 @@ public class PrbController {
     }
 
     @ApiOperation("根据NODEB_NAME查询PRB记录，按StartTime升序")
-    @GetMapping("/by-enodeb-name/{enodebName}")
-    public Result getByEnodebName(@PathVariable String enodebName,
+    @GetMapping("/by-enodeb-name")
+    public Result getByEnodebName(@RequestParam String enodebName,
                                   @RequestParam(required = false) String from,
                                   @RequestParam(required = false) String to) {
         List<Prb> prbs = prbService.listByEnodebName(enodebName, from, to);

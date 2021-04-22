@@ -53,8 +53,8 @@ public class CellController {
     }
 
     @ApiOperation("小区配置信息查询，SECTOR_NAME")
-    @GetMapping("/by-sector-name/{sectorName}")
-    public Result getInfoBySectorName(@PathVariable String sectorName) {
+    @GetMapping("/by-sector-name")
+    public Result getInfoBySectorName(@RequestParam String sectorName) {
         Cell cell = cellService.getBySectorName(sectorName);
         if (cell == null) {
             return Result.fail();
@@ -63,8 +63,8 @@ public class CellController {
     }
 
     @ApiOperation("小区配置信息查询，SECTOR_ID")
-    @GetMapping("/{sectorId}")
-    public Result getInfoBySectorId(@PathVariable String sectorId) {
+    @GetMapping("/by-sector-id")
+    public Result getInfoBySectorId(@RequestParam String sectorId) {
         Cell cell = cellService.getById(sectorId);
         if (cell == null) {
             return Result.fail();
@@ -86,14 +86,14 @@ public class CellController {
         return Result.success().put("enodebName", list);
     }
     @ApiOperation("基站 eNodeB 信息查询，根据ENODEB_NAME")
-    @GetMapping("/by-enodeb-name/{enodebName}")
-    public Result getInfoByEnodebName(@PathVariable String enodebName) {
+    @GetMapping("/by-enodeb-name")
+    public Result getInfoByEnodebName(@RequestParam String enodebName) {
         List<Cell> cells = cellService.listByEnodebName(enodebName);
         return Result.success().put("cells", cells);
     }
     @ApiOperation("基站 eNodeB 信息查询，根据ENODEBID")
-    @GetMapping("/by-enodebid/{enodebid}")
-    public Result getInfoByEnodebid(@PathVariable Integer enodebid) {
+    @GetMapping("/by-enodebid")
+    public Result getInfoByEnodebid(@RequestParam Integer enodebid) {
         List<Cell> cells = cellService.listByEnodebid(enodebid);
         return Result.success().put("cells", cells);
     }
