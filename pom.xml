@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.project</groupId>
-    <artifactId>DBCourseDesign</artifactId>
+    <artifactId>DBCoursedesign</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>DBCourseDesign</name>
     <description>数据库课设</description>
@@ -51,6 +51,14 @@
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>1.1.10</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.python/jython -->
+        <dependency>
+            <groupId>org.python</groupId>
+            <artifactId>jython</artifactId>
+            <version>2.7.2</version>
+        </dependency>
+
         <!--解析excel-->
         <!--<dependency>
             <groupId>org.apache.poi</groupId>
@@ -156,6 +164,21 @@
             <artifactId>spring-session-core</artifactId>
             <version>2.4.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.project</groupId>
+            <artifactId>DBCourseDesign</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/net.sourceforge.javacsv/javacsv -->
+        <dependency>
+            <groupId>net.sourceforge.javacsv</groupId>
+            <artifactId>javacsv</artifactId>
+            <version>2.0</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>

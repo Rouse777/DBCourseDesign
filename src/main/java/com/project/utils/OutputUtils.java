@@ -41,6 +41,7 @@ public class OutputUtils {
        //linux下换行符为\n
         String content="";
         String path="/root/server/"+"output0"+"/"+filename+".txt";
+
         File file=new File(path);
         BufferedWriter out = new BufferedWriter(new FileWriter(file,false),10*1024*1024);
 
@@ -55,6 +56,8 @@ public class OutputUtils {
                content+=(field.get(i)+",");
            content+=(field.get(field.size()-1)+"\n");
 
+           out.write(content);
+           content="";
            Field[] fields=T.getDeclaredFields();
 
            for(int i=0;i<ans.size();i++) {
@@ -67,6 +70,8 @@ public class OutputUtils {
                }
                fields[fields.length-1].setAccessible(true);
                content+=(fields[fields.length-1].get(temp).toString()+"\n");
+               out.write(content);
+               content="";
 
            }
 
@@ -80,6 +85,9 @@ public class OutputUtils {
                 content+=(field.get(i)+",");
             content+=(field.get(field.size()-1)+"\n");
 
+            out.write(content);
+            content="";
+
             Field[] fields=T.getDeclaredFields();
 
             for(int i=0;i<ans.size();i++) {
@@ -92,21 +100,28 @@ public class OutputUtils {
                 }
                 fields[fields.length-1].setAccessible(true);
                 content+=(fields[fields.length-1].get(temp).toString()+"\n");
+                out.write(content);
+                content="";
 
             }
         }
        else if(filename.equals("prb_new"))//未考虑查询为空的情况
        {
            List<Prbnew> ans=prbnewservice.list();
+//           System.out.println(ans);
            List<String> field= output.getFields("prb_new");
            Class T=Prbnew.class;
            for(int i=0;i<field.size()-1;i++)
                content+=(field.get(i)+",");
            content+=(field.get(field.size()-1)+"\n");
 
+           out.write(content);
+           content="";
            Field[] fields=T.getDeclaredFields();
 
+//           System.out.println(ans.size());
            for(int i=0;i<ans.size();i++) {
+//               System.out.println(i);
 
                Prbnew temp=ans.get(i);
                for(int j=0;j<(fields.length-1);j++){
@@ -116,13 +131,15 @@ public class OutputUtils {
                }
                fields[fields.length-1].setAccessible(true);
                content+=(fields[fields.length-1].get(temp).toString()+"\n");
+               out.write(content);
+//               System.out.println("end");
 
-
+               content="";
 
            }
        }
 
-       out.write(content);
+//       out.write(content);
        out.flush();
        out.close();
 
