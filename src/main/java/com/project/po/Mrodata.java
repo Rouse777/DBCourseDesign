@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("mro_data")
+@TableName("tbMROData")
 @ApiModel(value="Mrodata对象", description=" MRO 测量报告数据表")
 public class Mrodata implements Serializable {
 
@@ -35,7 +35,7 @@ public class Mrodata implements Serializable {
     private String ServingSector;
 
     @ApiModelProperty(value = "干扰小区 ID")
-      @TableId(value = "InterferingSector")
+    @TableId(value = "InterferingSector")
     private String InterferingSector;
 
     @ApiModelProperty(value = "服务小区参考信号接收功率 RSRP")

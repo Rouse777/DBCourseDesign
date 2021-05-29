@@ -1,11 +1,13 @@
 package com.project.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.project.mapper.PrbMapper;
 import com.project.po.Prb;
 import com.project.service.PrbService;
 import com.project.utils.LogUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -21,14 +23,25 @@ import java.util.List;
  */
 @Service
 public class PrbServiceImpl extends ServiceImpl<PrbMapper, Prb> implements PrbService {
+
+    @Autowired
+    PrbService prbService;
+
+
     @Override
     public void cleanAndSaveBatch(List<Prb> entityList) {
         List<Prb> res = new ArrayList<>();
+//        System.out.println(entityList.size());
         for (Prb entity : entityList) {
             if (isValid(entity)) res.add(entity);
             else LogUtils.logObj(entity);
         }
+
+//        System.out.println(res.size());
+
         baseMapper.insertOrUpdateBatch(res);
+//        prbService.saveOrUpdateBatch(res);
+//        System.out.println("finish saveorupdatebatch");
     }
 
     private boolean isValid(Prb entity) {

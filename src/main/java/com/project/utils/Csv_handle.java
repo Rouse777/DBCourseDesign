@@ -118,10 +118,12 @@ public class Csv_handle implements IHandle {
                 }
 
                 if(t.equals(Cell.class)) csv_handle.cellservice.cleanAndSaveBatch((List<Cell>)object_lines);
-                else if(t.equals(Kpi.class))csv_handle.kpiservice.cleanAndSaveBatch((List<Kpi>)object_lines);
+                else if(t.equals(Kpi.class)){csv_handle.kpiservice.cleanAndSaveBatch((List<Kpi>)object_lines);
+                                       System.out.println("kpi‘s insertlines："+String.valueOf(object_lines.size())); }
                 else if(t.equals(Mrodata.class))csv_handle.mrodataservice.cleanAndSaveBatch((List<Mrodata>)object_lines);
                 else if(t.equals(Prb.class)) {
                     csv_handle.prbservice.cleanAndSaveBatch((List<Prb>) object_lines);
+                    System.out.println(object_lines.size());
                 }
             }
 

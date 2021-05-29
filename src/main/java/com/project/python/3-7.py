@@ -5,16 +5,23 @@
 输入：tbC2Inew
 输出：tbC2I3
 '''
+import os
+parent = os.path.dirname(os.path.realpath(__file__))
+garder = os.path.dirname(parent)
+temp1=os.path.dirname(garder)
+temp2=os.path.dirname(temp1)
+ans=os.path.dirname(temp2)
 
 
 # 第一步：找出全部的三元组
-
+import sys
 # 读入文件
-PATH_IN = './data/tbC2Inew.csv'
-PATH_OUT = './data/tbC2I3.csv'
+x=int(sys.argv[1])
+
+PATH_IN = '/root/server/data/tbC2Inew.csv'
+PATH_OUT ='/root/server/data/tbC2I3.csv'
 output = open(PATH_OUT,'a')
-def proc(int x):
-    x = 10
+def proc(x):
     nodes = set()
     edge = set()
     edge_weight = {}
@@ -68,7 +75,7 @@ def proc(int x):
                 (bc >= base_line or cb>= base_line) and \
                 (ac >= base_line or ca >= base_line):
             output.write(a + ',' + b + ',' + c + '\n')
-
+proc(x)
 
 
 

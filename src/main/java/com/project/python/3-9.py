@@ -1,13 +1,19 @@
-#-*- coding: UTF-8 -*-
+import io
+import sys
+import os
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
 #!/usr/bin/env python3
 
-'''
-    Implements the Louvain method.
-    Input: a weighted undirected graph
-    Ouput: a (partition, modularity) pair where modularity is maximum
-'''
-class PyLouvain:
+print("start")
+parent = os.path.dirname(os.path.realpath(__file__))
+garder = os.path.dirname(parent)
+temp1path=os.path.dirname(garder)
+temp2path=os.path.dirname(temp1path)
+anspath=os.path.dirname(temp2path)
 
+class PyLouvain:
     '''
         Builds a graph from _path.
         _path: a path to a file containing "node_from node_to" edges (one per line)
@@ -32,7 +38,7 @@ class PyLouvain:
         # rebuild graph with successive identifiers
         nodes_, edges_, node_dict_ = in_order(nodes, edges)
         cls.node_dict = node_dict_
-        print("%d nodes, %d edges" % (len(nodes_), len(edges_)))
+        # print("%d nodes, %d edges" % (len(nodes_), len(edges_)))
         return cls(nodes_, edges_)
 
     '''
@@ -67,7 +73,7 @@ class PyLouvain:
                 in_edge = 0
         nodes, edges, node_dict = in_order(nodes, edges)
         cls.node_dict = node_dict
-        print("%d nodes, %d edges" % (len(nodes), len(edges)))
+        # print("%d nodes, %d edges" % (len(nodes), len(edges)))
         return cls(nodes, edges,)
 
     '''
@@ -316,19 +322,23 @@ def in_order(nodes, edges):
         return (nodes_, edges_, d)
 
 #from pylouvain import PyLouvain
+
+print(0)
 import math
 from matplotlib import pyplot as plt
 import networkx as nx
 
+
 #filepath = 'data/tbC2I.txt'
-filepath = './data/tbC2I.txt'
+filepath ='/root/server/data/pre_all.txt'
 
 # 获取社区划分
+print(0)
 pyl = PyLouvain.from_file(filepath)
 node_dict = pyl.node_dict # key是253916-2的形式，value是编号的形式
 reverse_node_dict = dict(zip(node_dict.values(), node_dict.keys()))# key是编号的形式，value是253916-2的形式
 partition, q = pyl.apply_method()
-print(partition)
+# print(partition)
 print("模块度：",q)
 
 # 给各个社区节点分配颜色
@@ -337,14 +347,14 @@ print('community_num:',community_num)
 color_board = ['red','green','blue','pink','orange','purple','scarlet']
 color = {}
 for index in range(community_num):
-    print("社区"+str(index+1)+":"+str(len(partition[index])))
+    # print("社区"+str(index+1)+":"+str(len(partition[index])))
     for node_id in partition[index]:
         color[node_id] = color_board[index] # color为一个字典，key为编号形式的节点，value为所属社区的颜色
 new_color_dict = sorted(color.items(), key=lambda d:d[0], reverse = False)# 将color字典按照key的大小排序，并返回一个list
 node_list = [reverse_node_dict[item[0]] for item in new_color_dict] #存储编号从小到大顺序对应的253916-2的形式的节点
 color_list = [item[1] for item in new_color_dict]#存储node_list中对应的节点颜色
-print(node_list)
-print(color_list)
+# print(node_list)
+# print(color_list)
 
 #构建networkx无向图
 G = nx.Graph()
@@ -365,14 +375,14 @@ for line in lines:
         edge_color.append(color[node_dict[n[0]]]) #则使用点的颜色作为边的颜色
     else:
         edge_color.append('c') #否则使用其他颜色
-    if float(n[2]) > 40.0: #阈值
-        edge_width.append(float(n[2])/100.0)
+    if float(n[2]) > 10: #阈值
+        edge_width.append(float(n[2]))
     else:
         edge_width.append(0.0)
 
 # 可视化
 plt.figure(figsize=(200,200))
-f = open(r"./data/coordinate.txt", encoding='utf-8')
+f = open('/root/server/data/coordinate.txt', encoding='utf-8')
 pos_dict = eval(f.read())
 f.close()
 _node = [int(item.split("-")[-1])%4 for item in node_list] #提取后缀模4取余
@@ -386,10 +396,53 @@ for index,item in enumerate(_node): #划分不同后缀余数的群，以便给�
         node_2_index_list.append(index)
     if item == 3:
         node_3_index_list.append(index)
-print("node_list:",_node)
+# print("node_list:",_node)
+
+
+node_list_0 = []
+node_list_1 = []
+node_list_2 = []
+node_list_3 = []
+
+color_list_0 = []
+color_list_1 = []
+color_list_2 = []
+color_list_3 = []
+
+for i in node_0_index_list:
+    if i % 8 == 0:
+        node_list_0.append(node_list[i])
+        color_list_0.append(color_list[i])
+
+for i in node_1_index_list:
+    if i % 8 == 0:
+        node_list_1.append(node_list[i])
+        color_list_1.append(color_list[i])
+
+for i in node_2_index_list:
+    if i % 8 == 0:
+        node_list_2.append(node_list[i])
+        color_list_2.append(color_list[i])
+
+for i in node_3_index_list:
+    if i % 8 == 0:
+        node_list_3.append(node_list[i])
+        color_list_3.append(color_list[i])
+
+
+nx.draw_networkx_nodes(G, pos_dict, nodelist=node_list_0,node_shape=7, node_color=color_list_0, node_size=5000)
+nx.draw_networkx_nodes(G, pos_dict, nodelist=node_list_1,node_shape=7, node_color=color_list_1, node_size=5000)
+nx.draw_networkx_nodes(G, pos_dict, nodelist=node_list_2,node_shape=7, node_color=color_list_2, node_size=5000)
+nx.draw_networkx_nodes(G, pos_dict, nodelist=node_list_3,node_shape=7, node_color=color_list_3, node_size=5000)
+nx.draw_networkx_edges(G, pos_dict, edgelist = edge_list, width = edge_width, alpha=1, edge_color=edge_color)
+
+
+'''
 nx.draw_networkx_nodes(G, pos_dict, nodelist=[node_list[i] for i in node_0_index_list],node_shape=7, node_color=[color_list[i] for i in node_0_index_list], node_size=50)
 nx.draw_networkx_nodes(G, pos_dict, nodelist=[node_list[i] for i in node_1_index_list],node_shape=4, node_color=[color_list[i] for i in node_1_index_list], node_size=50)
 nx.draw_networkx_nodes(G, pos_dict, nodelist=[node_list[i] for i in node_2_index_list],node_shape=5, node_color=[color_list[i] for i in node_2_index_list], node_size=50)
 nx.draw_networkx_nodes(G, pos_dict, nodelist=[node_list[i] for i in node_3_index_list],node_shape=6, node_color=[color_list[i] for i in node_3_index_list], node_size=50)
 nx.draw_networkx_edges(G, pos_dict, edgelist = edge_list, width = edge_width, alpha=1, edge_color=edge_color)
-plt.show()
+'''
+plt.savefig('/root/server/data/network.png',dpi=75)
+# plt.show()

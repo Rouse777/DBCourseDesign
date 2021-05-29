@@ -16,6 +16,8 @@ import java.util.List;
 public interface KpiService extends IService<Kpi> {
     void cleanAndSaveBatch(List<Kpi> entityList);
 
+
+
     List<String> listSectorName();
 
     List<Kpi> listBySectorName(String sectorName);

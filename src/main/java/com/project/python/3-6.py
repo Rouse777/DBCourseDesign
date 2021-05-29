@@ -1,5 +1,6 @@
 #-*- coding: UTF-8 -*-
 import numpy as np
+import os
 '''
 输入：用户的两张表tbMROdata 与 tbC2I
 输出：
@@ -15,10 +16,21 @@ import numpy as np
 涉及到 tbMROdata:1MB  tbC2I:50MB   (可放入内存计算)
 '''
 
+
+parent = os.path.dirname(os.path.realpath(__file__))
+garder = os.path.dirname(parent)
+temp1path=os.path.dirname(garder)
+temp2path=os.path.dirname(temp1path)
+anspath=os.path.dirname(temp2path)
+
+
 # 文件路径
-PATH_MRO = './data/tbMROData.csv'
-PATH_C2I = './data/tbC2I.csv'
-PATH_OUT = './data/tbC2Inew.csv'
+PATH_MRO = "/root/server/data/tbMROData.csv"
+
+PATH_C2I ="/root/server/data/tbC2I.csv"
+
+PATH_OUT = "/root/server/data/tbC2Inew.csv"
+
 
 
 # 读文件并存起来

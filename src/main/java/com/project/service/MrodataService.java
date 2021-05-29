@@ -16,4 +16,5 @@ import java.util.List;
  */
 public interface MrodataService extends IService<Mrodata> {
     void cleanAndSaveBatch(List<Mrodata> data);
+
 }

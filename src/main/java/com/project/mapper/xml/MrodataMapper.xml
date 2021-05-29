@@ -3,7 +3,7 @@
 <mapper namespace="com.project.mapper.MrodataMapper">
 
     <insert id="insertOrUpdateBatch">
-        insert into LTE_system.mro_data(
+        insert into LTE_system.tbMROData(
         `TimeStamp`,
         `ServingSector`,
         `InterferingSector`,

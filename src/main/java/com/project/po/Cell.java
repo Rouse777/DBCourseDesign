@@ -31,7 +31,7 @@ public class Cell implements Serializable {
     private String city;
 
     @ApiModelProperty(value = "小区 ID")
-    @TableId(value = "SECTOR_ID")
+    @TableField(value = "SECTOR_ID")
     private String sectorId;
 
     @ApiModelProperty(value = "小区名称")

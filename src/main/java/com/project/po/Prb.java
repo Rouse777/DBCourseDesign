@@ -27,7 +27,7 @@ public class Prb implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "起始时间")
-      @TableId(value = "StartTime")
+    @TableId(value = "StartTime")
     private String StartTime;
 
     @ApiModelProperty(value = "网元/基站名称")

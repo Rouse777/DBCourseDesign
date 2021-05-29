@@ -5,6 +5,7 @@ import com.project.po.Kpi;
 import com.project.result.Result;
 import com.project.result.ResultCode;
 import com.project.service.KpiService;
+import com.project.utils.CsvUtils;
 import com.project.utils.ExcelUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,7 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
+
+import static com.project.utils.MultipartFileToFile.multipartFileToFile;
 
 /**
  * <p>
@@ -43,6 +47,24 @@ public class KpiController {
             return Result.any(ResultCode.ILLEGAL_ARGS, "文件扩展名不是.xlsx");
         List<Kpi> kpis = ExcelUtils.getListByExcel(file, Kpi.class);
         kpiService.cleanAndSaveBatch(kpis);
+        return Result.success();
+    }
+
+
+    @ApiOperation("KPI数据导入，csv文件")
+    @PostMapping("/csv")
+    public Result importData2(@RequestParam("file") MultipartFile file) {
+        log.info("收到文件：{}，大小为{}KB", file.getOriginalFilename(), file.getSize() / 1024.0);
+
+        File file1 = null;
+        try {
+            file1 = multipartFileToFile(file);
+            System.out.println("file.path: " + file1.getAbsolutePath());
+            CsvUtils.start(file1.getAbsolutePath(), "Kpi");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.fail();
+        }
         return Result.success();
     }
 

@@ -6,6 +6,7 @@ import com.project.mapper.CellMapper;
 import com.project.po.Cell;
 import com.project.service.CellService;
 import com.project.utils.LogUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +23,9 @@ import java.util.List;
 @Service
 public class CellServiceImpl extends ServiceImpl<CellMapper, Cell> implements CellService {
 
+    @Autowired
+    CellService cellService;
+
     @Override
     public void cleanAndSaveBatch(List<Cell> entityList) {
         List<Cell> res = new ArrayList<>();
@@ -31,7 +35,7 @@ public class CellServiceImpl extends ServiceImpl<CellMapper, Cell> implements Ce
                 res.add(entity);
             } else LogUtils.logObj(entity);
         }
-        baseMapper.insertOrUpdateBatch(res);
+        cellService.saveOrUpdateBatch(res);
     }
 
     private boolean isIdExist(Cell cell) {

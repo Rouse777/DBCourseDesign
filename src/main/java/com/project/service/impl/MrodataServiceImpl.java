@@ -6,6 +6,7 @@ import com.project.mapper.MrodataMapper;
 import com.project.service.MrodataService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.project.utils.LogUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +23,9 @@ import com.project.utils.*;
 @Service
 public class MrodataServiceImpl extends ServiceImpl<MrodataMapper, Mrodata> implements MrodataService {
 
+
+    @Autowired
+    MrodataService mrodataService;
 
     @Override
     public void cleanAndSaveBatch(List<Mrodata> entityList) {
